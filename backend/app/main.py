@@ -68,7 +68,7 @@ app.add_middleware(
         "http://localhost:3000",
         "http://127.0.0.1:8000",
         "https://*.vercel.app",   # Vercel frontend
-        "https://agentai-fwy2.onrender.com",  # Render (same origin fallback)
+        "https://aiagriiii-3.onrender.com",  # Render (same origin fallback)
         "*",  # Remove this in strict production
     ],
     allow_credentials=True,
