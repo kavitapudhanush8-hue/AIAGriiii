@@ -1,0 +1,24 @@
+# render.yaml — Render.com deployment configuration
+# Place this file in the ROOT of your repository.
+
+services:
+  - type: web
+    name: agentai
+    runtime: docker
+    # Dockerfile is inside /backend but build context is the whole repo root
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true          # Render auto-generates a secure random key
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "60"
+      - key: OPENWEATHER_API_KEY
+        sync: false                  # Set this manually in Render dashboard
+      - key: MODEL_PATH
+        value: ai-model/saved_model/plant_disease_model.h5
+      - key: DATABASE_URL
+        sync: false                  # Optional: set if using Render PostgreSQL

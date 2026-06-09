@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Agriculture Assistant — Helping farmers detect plant diseases, get treatment recommendations, weather alerts, fertilizer suggestions, and market prices.">
+    <title>🌾 AI Agriculture Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- SPLASH / AUTH SCREEN                                                    -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div id="auth-screen" class="screen active">
+        <div class="auth-container">
+            <div class="auth-left">
+                <div class="brand-hero">
+                    <div class="brand-icon">🌾</div>
+                    <h1 class="brand-title">AI Agriculture<br>Assistant</h1>
+                    <p class="brand-subtitle">Empowering farmers with AI-powered crop disease detection, smart fertilizer recommendations, real-time weather alerts, and market insights.</p>
+                    <div class="brand-features">
+                        <div class="brand-feature"><span class="feature-dot"></span> Disease Detection AI</div>
+                        <div class="brand-feature"><span class="feature-dot"></span> Smart Recommendations</div>
+                        <div class="brand-feature"><span class="feature-dot"></span> Weather Alerts</div>
+                        <div class="brand-feature"><span class="feature-dot"></span> Market Prices</div>
+                    </div>
+                </div>
+            </div>
+            <div class="auth-right">
+                <!-- Login Form -->
+                <div id="login-form" class="auth-form active">
+                    <h2>Welcome Back 👋</h2>
+                    <p class="auth-desc">Sign in to access your farming dashboard</p>
+                    <div class="form-group">
+                        <label for="login-phone">Phone Number</label>
+                        <input type="tel" id="login-phone" placeholder="Enter your phone number" maxlength="15">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="login-password" placeholder="Enter your password">
+                            <button type="button" class="password-toggle" onclick="togglePassword('login-password', this)" aria-label="Toggle password visibility">
+                                <svg class="eye-icon eye-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                <svg class="eye-icon eye-closed" style="display:none" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <button id="login-btn" class="btn-primary" onclick="handleLogin()">Sign In</button>
+                    <p class="auth-switch">Don't have an account? <a href="#" onclick="showRegister()">Register here</a></p>
+                </div>
+                <!-- Register Form -->
+                <div id="register-form" class="auth-form">
+                    <h2>Create Account 🌱</h2>
+                    <p class="auth-desc">Join thousands of smart farmers</p>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reg-name">Full Name</label>
+                            <input type="text" id="reg-name" placeholder="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-phone">Phone Number</label>
+                            <input type="tel" id="reg-phone" placeholder="Phone number" maxlength="15">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="reg-password" placeholder="Create password (min 6 chars)">
+                            <button type="button" class="password-toggle" onclick="togglePassword('reg-password', this)" aria-label="Toggle password visibility">
+                                <svg class="eye-icon eye-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                <svg class="eye-icon eye-closed" style="display:none" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reg-village">Village</label>
+                            <input type="text" id="reg-village" placeholder="Your village">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-state">State</label>
+                            <input type="text" id="reg-state" placeholder="Your state">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-language">Preferred Language</label>
+                        <select id="reg-language">
+                            <option value="English">English</option>
+                            <option value="Hindi">Hindi (हिन्दी)</option>
+                            <option value="Telugu">Telugu (తెలుగు)</option>
+                        </select>
+                    </div>
+                    <button id="register-btn" class="btn-primary" onclick="handleRegister()">Create Account</button>
+                    <p class="auth-switch">Already have an account? <a href="#" onclick="showLogin()">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- MAIN APP SCREEN                                                        -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div id="app-screen" class="screen">
+        <!-- Sidebar Navigation -->
+        <div id="sidebar-backdrop" class="sidebar-backdrop" onclick="closeSidebar()" aria-hidden="true"></div>
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-brand">
+                <span class="sidebar-icon">🌾</span>
+                <span class="sidebar-title">AgriAI</span>
+            </div>
+            <div class="sidebar-menu">
+                <button class="nav-item active" data-page="dashboard" onclick="navigate('dashboard')">
+                    <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
+                </button>
+                <button class="nav-item" data-page="disease" onclick="navigate('disease')">
+                    <span class="nav-icon">🔬</span><span class="nav-label">Disease Detection</span>
+                </button>
+                <button class="nav-item" data-page="weather" onclick="navigate('weather')">
+                    <span class="nav-icon">🌤️</span><span class="nav-label">Weather Alerts</span>
+                </button>
+                <button class="nav-item" data-page="fertilizer" onclick="navigate('fertilizer')">
+                    <span class="nav-icon">🧪</span><span class="nav-label">Fertilizer</span>
+                </button>
+                <button class="nav-item" data-page="market" onclick="navigate('market')">
+                    <span class="nav-icon">📈</span><span class="nav-label">Market Prices</span>
+                </button>
+                <button class="nav-item" data-page="chat" onclick="navigate('chat')">
+                    <span class="nav-icon">🤖</span><span class="nav-label">AI Assistant</span>
+                </button>
+            </div>
+            <div class="sidebar-footer">
+                <button class="nav-item" onclick="handleLogout()">
+                    <span class="nav-icon">🚪</span><span class="nav-label">Logout</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+                <div class="topbar-info">
+                    <h2 id="page-title">Dashboard</h2>
+                </div>
+                <div class="topbar-user" onclick="navigate('profile')" style="cursor: pointer;" title="Edit Profile">
+                    <span id="user-greeting" class="user-greeting">Hello, Farmer</span>
+                    <div class="avatar" id="user-avatar" style="background-size: cover; background-position: center;">F</div>
+                </div>
+            </header>
+
+            <!-- Pages Container -->
+            <div class="pages-container">
+
+                <!-- ─── DASHBOARD PAGE ─────────────────────────────────── -->
+                <div id="page-dashboard" class="page active">
+                    <div class="dashboard-welcome animate-on-scroll stagger-1">
+                        <div class="welcome-text">
+                            <h1 id="welcome-msg">Good Morning, Farmer! 🌅</h1>
+                            <p>Your smart farming companion is ready to help you grow better crops.</p>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card stat-disease animate-on-scroll stagger-2" onclick="navigate('disease')">
+                            <div class="stat-icon">🔬</div>
+                            <div class="stat-info">
+                                <h3>Disease Detection</h3>
+                                <p>Upload a leaf photo to detect diseases instantly</p>
+                            </div>
+                            <span class="stat-arrow">→</span>
+                        </div>
+                        <div class="stat-card stat-weather animate-on-scroll stagger-3" onclick="navigate('weather')">
+                            <div class="stat-icon">🌤️</div>
+                            <div class="stat-info">
+                                <h3>Weather Alerts</h3>
+                                <p>Get real-time weather data and farming advice</p>
+                            </div>
+                            <span class="stat-arrow">→</span>
+                        </div>
+                        <div class="stat-card stat-fertilizer animate-on-scroll stagger-4" onclick="navigate('fertilizer')">
+                            <div class="stat-icon">🧪</div>
+                            <div class="stat-info">
+                                <h3>Fertilizer Guide</h3>
+                                <p>Smart fertilizer recommendations for your crop</p>
+                            </div>
+                            <span class="stat-arrow">→</span>
+                        </div>
+                        <div class="stat-card stat-market animate-on-scroll stagger-5" onclick="navigate('market')">
+                            <div class="stat-icon">📈</div>
+                            <div class="stat-info">
+                                <h3>Market Prices</h3>
+                                <p>Track crop prices across markets</p>
+                            </div>
+                            <span class="stat-arrow">→</span>
+                        </div>
+                        <div class="stat-card stat-chat animate-on-scroll stagger-6" onclick="navigate('chat')">
+                            <div class="stat-icon">🤖</div>
+                            <div class="stat-info">
+                                <h3>AI Chat Assistant</h3>
+                                <p>Ask any farming question in your language</p>
+                            </div>
+                            <span class="stat-arrow">→</span>
+                        </div>
+                        <div class="stat-card stat-history animate-on-scroll stagger-7" onclick="navigate('disease')">
+                            <div class="stat-icon">📋</div>
+                            <div class="stat-info">
+                                <h3>Prediction History</h3>
+                                <p>View your past disease detection results</p>
+                            </div>
+                            <span class="stat-arrow">→</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Info Cards -->
+                    <div class="quick-info-row animate-on-scroll stagger-8">
+                        <div class="info-card">
+                            <h4>🌡️ Today's Tip</h4>
+                            <p id="daily-tip">Check weather conditions before spraying pesticides. Rainy weather reduces pesticide effectiveness by up to 70%.</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>📢 Season Alert</h4>
+                            <p>Kharif season is ideal for rice, cotton, and corn. Start preparing your fields for sowing!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─── DISEASE DETECTION PAGE ─────────────────────────── -->
+                <div id="page-disease" class="page">
+                    <div class="page-header animate-on-scroll stagger-1">
+                        <h2>🔬 Plant Disease Detection</h2>
+                        <p>Upload a photo of a plant leaf to detect diseases using our AI model</p>
+                    </div>
+
+                    <div class="disease-layout animate-on-scroll stagger-2">
+                        <div class="upload-section">
+                            <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
+                                <input type="file" id="file-input" accept="image/*" onchange="handleImageSelect(event)" hidden>
+                                <div id="upload-placeholder" class="upload-placeholder">
+                                    <div class="upload-icon">📷</div>
+                                    <h3>Upload Leaf Image</h3>
+                                    <p>Click or drag a photo of the affected leaf</p>
+                                    <span class="upload-hint">Supports JPG, PNG — Max 10MB</span>
+                                </div>
+                                <img id="preview-image" class="preview-image" style="display:none;" alt="Leaf preview">
+                            </div>
+                            <button id="predict-btn" class="btn-primary btn-lg" onclick="handlePredict()" disabled>
+                                🔍 Analyze Leaf
+                            </button>
+                        </div>
+
+                        <div id="prediction-result" class="result-section" style="display:none;">
+                            <div class="result-card">
+                                <div class="result-header">
+                                    <h3>Detection Result</h3>
+                                    <span id="result-confidence" class="confidence-badge">96%</span>
+                                </div>
+                                <div id="result-disease" class="result-disease">Early Blight</div>
+                                <div id="result-details" class="result-details"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prediction History -->
+                    <div class="history-section">
+                        <h3>📋 Prediction History</h3>
+                        <div id="prediction-history" class="history-grid">
+                            <p class="empty-state">No predictions yet. Upload a leaf image to get started!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─── WEATHER DASHBOARD PAGE ───────────────────────────── -->
+                <div id="page-weather" class="page">
+                    <div class="weather-top-bar">
+                        <div class="weather-search-minimal">
+                            <select id="weather-state" class="minimal-select" onchange="updateWeatherDistricts()">
+                                <option value="">Select State</option>
+                            </select>
+                            <select id="weather-district" class="minimal-select">
+                                <option value="">Select District</option>
+                            </select>
+                            <button class="btn-primary btn-sm" onclick="fetchWeather()">Get Weather</button>
+                        </div>
+                    </div>
+
+                    <div id="weather-dashboard" class="weather-dashboard" style="display:none;">
+                        <!-- Top Cards (Current Weather + Map placeholder) -->
+                        <div class="weather-row-top">
+                            <div class="weather-current-card">
+                                <div class="curr-header">
+                                    <h3>Current weather</h3>
+                                    <span class="curr-time" id="weather-current-time"></span>
+                                </div>
+                                <div class="curr-main">
+                                    <div class="curr-icon-temp">
+                                        <div class="curr-icon" id="weather-icon">☁️</div>
+                                        <div class="curr-temp"><span id="weather-temp-val">30</span><span class="unit">°C</span></div>
+                                    </div>
+                                    <div class="curr-desc">
+                                        <h4 id="weather-desc-main">Mostly cloudy</h4>
+                                        <p id="weather-feels-like">Feels like 35°</p>
+                                    </div>
+                                </div>
+                                <p class="curr-summary" id="weather-summary-text">There will be mostly sunny skies. The high will be 37°.</p>
+                                <div class="curr-details">
+                                    <div class="detail-item"><span class="label">Air quality</span><span class="val" id="weather-aqi">62</span></div>
+                                    <div class="detail-item"><span class="label">Wind</span><span class="val" id="weather-wind-dash">8 km/h</span></div>
+                                    <div class="detail-item"><span class="label">Humidity</span><span class="val" id="weather-humidity-dash">72%</span></div>
+                                    <div class="detail-item"><span class="label">Visibility</span><span class="val" id="weather-visibility">6 km</span></div>
+                                    <div class="detail-item"><span class="label">Pressure</span><span class="val" id="weather-pressure">1004 mb</span></div>
+                                </div>
+                            </div>
+                            <div class="weather-map-card">
+                                <div class="map-placeholder" id="weather-map-container">
+                                    <iframe id="weather-map-iframe" width="100%" height="100%" style="border:0; border-radius:12px;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=India+agriculture+farmlands&t=k&z=5&ie=UTF8&iwloc=&output=embed"></iframe>
+                                    <div class="map-overlay">
+                                        <span class="map-btn" onclick="window.open(document.getElementById('weather-map-iframe').src.replace('&output=embed', ''), '_blank')">Open Map</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Alerts Section -->
+                        <div id="weather-alerts-container" style="display:none; margin-top: 1rem;">
+                            <h3 class="section-title">🚨 Agricultural Alerts</h3>
+                            <div id="weather-alerts" class="alerts-grid"></div>
+                        </div>
+
+                        <!-- Tab Navigation -->
+                        <div class="weather-tabs-container">
+                            <h2 class="tab-title">Hourly</h2>
+                            <div class="weather-tabs">
+                                <button class="w-tab active" data-wtab="overview">Overview</button>
+                                <button class="w-tab" data-wtab="precipitation">Precipitation</button>
+                                <button class="w-tab" data-wtab="wind">Wind</button>
+                            </div>
+                            <button class="w-tab-monthly" onclick="toggleWeatherMonthly()">📅 Monthly View</button>
+                        </div>
+
+                        <!-- 7-Day Horizontal Scroll List -->
+                        <div class="weather-7day-scroll" id="weather-7day-scroll">
+                            <!-- Populated by JS -->
+                        </div>
+
+                        <!-- Tab Content: Hourly Overview Graph -->
+                        <div class="weather-tab-content active" id="wtab-overview">
+                            <div class="weather-chart-container">
+                                <div class="chart-header">
+                                    <h3>Overview</h3>
+                                </div>
+                                <div id="weather-simple-graph" class="simple-graph-container"></div>
+                                <div class="chart-footer-metrics" id="weather-hourly-metrics">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab Content: Monthly View -->
+                        <div class="weather-tab-content" id="wtab-monthly" style="display:none;">
+                            <div class="weather-row-monthly">
+                                <!-- Calendar Grid -->
+                                <div class="weather-calendar-card">
+                                    <div class="calendar-months">
+                                        <button class="month-btn active">June</button>
+                                        <button class="month-btn">July</button>
+                                        <button class="month-btn">August</button>
+                                    </div>
+                                    <div class="calendar-grid" id="weather-calendar-grid">
+                                        <!-- Populated by JS -->
+                                    </div>
+                                </div>
+                                <!-- Trends Sidebar -->
+                                <div class="weather-trends-sidebar">
+                                    <div class="trend-overview-card">
+                                        <h4>Weather overview</h4>
+                                        <div class="trend-pie-placeholder">
+                                            <div class="pie-circle"><span>Jun</span></div>
+                                            <div class="pie-legend">
+                                                <div class="legend-item"><span class="dot sunny"></span> Sunny/Cloudy: 20</div>
+                                                <div class="legend-item"><span class="dot rain"></span> Rain/Snow: 10</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ─── FERTILIZER PAGE ────────────────────────────────── -->
+                <div id="page-fertilizer" class="page">
+                    <div class="page-header">
+                        <h2>🧪 Fertilizer Recommendation</h2>
+                        <p>Get smart fertilizer suggestions based on your crop and soil type</p>
+                    </div>
+
+                    <div class="fertilizer-layout">
+                        <div class="fertilizer-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fert-crop">Crop Type</label>
+                                    <select id="fert-crop">
+                                        <option value="Tomato">🍅 Tomato</option>
+                                        <option value="Rice">🌾 Rice</option>
+                                        <option value="Potato">🥔 Potato</option>
+                                        <option value="Corn">🌽 Corn</option>
+                                        <option value="Cotton">🧶 Cotton</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fert-soil">Soil Type</label>
+                                    <select id="fert-soil">
+                                        <option value="Loamy">Loamy</option>
+                                        <option value="Sandy">Sandy</option>
+                                        <option value="Clay">Clay</option>
+                                        <option value="Black">Black (Vertisol)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fert-nitrogen">Nitrogen (kg/ha)</label>
+                                    <input type="number" id="fert-nitrogen" placeholder="e.g., 50" min="0" max="200">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fert-phosphorus">Phosphorus (kg/ha)</label>
+                                    <input type="number" id="fert-phosphorus" placeholder="e.g., 30" min="0" max="200">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fert-potassium">Potassium (kg/ha)</label>
+                                    <input type="number" id="fert-potassium" placeholder="e.g., 40" min="0" max="200">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fert-moisture">Soil Moisture (%)</label>
+                                    <input type="number" id="fert-moisture" placeholder="e.g., 45" min="0" max="100">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fert-temp">Temperature (°C)</label>
+                                    <input type="number" id="fert-temp" placeholder="e.g., 28">
+                                </div>
+                            </div>
+                            <button class="btn-primary btn-lg" onclick="fetchFertilizer()">💡 Get Recommendation</button>
+                        </div>
+
+                        <div id="fertilizer-result" class="fertilizer-result" style="display:none;">
+                            <div class="fert-result-card">
+                                <h3>Recommendation</h3>
+                                <div id="fert-recommendation" class="fert-details"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─── MARKET PRICES PAGE ─────────────────────────────── -->
+                <div id="page-market" class="page">
+                    <div class="page-header">
+                        <h2>📈 Market Price Tracking</h2>
+                        <p>View current crop prices and trends across agricultural markets</p>
+                    </div>
+
+                    <div class="market-filters">
+                        <select id="market-crop-filter" onchange="fetchMarketPrices()">
+                            <option value="">All Crops</option>
+                            <option value="Tomato">🍅 Tomato</option>
+                            <option value="Rice">🌾 Rice</option>
+                            <option value="Potato">🥔 Potato</option>
+                            <option value="Corn">🌽 Corn</option>
+                            <option value="Cotton">🧶 Cotton</option>
+                            <option value="Onion">🧅 Onion</option>
+                            <option value="Chilli">🌶️ Chilli</option>
+                        </select>
+                        <select id="market-name-filter" onchange="fetchMarketPrices()">
+                            <option value="">All Markets</option>
+                            <option value="Vijayawada">Vijayawada</option>
+                            <option value="Guntur">Guntur</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                        </select>
+                    </div>
+
+                    <div class="market-trend-cards" id="market-trends"></div>
+                    
+                    <div class="market-charts-wrapper" id="market-charts-wrapper" style="display: none; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                        <div class="market-chart-container" style="background: var(--bg-card); padding: 1.5rem; border-radius: var(--radius); border: 1px solid var(--border); min-width: 0; min-height: 350px; position: relative;">
+                            <canvas id="marketLineChart"></canvas>
+                        </div>
+                        <div class="market-chart-container" style="background: var(--bg-card); padding: 1.5rem; border-radius: var(--radius); border: 1px solid var(--border); min-width: 0; min-height: 350px; position: relative;">
+                            <canvas id="marketPieChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="market-table-wrapper">
+                        <table class="market-table" id="market-table">
+                            <thead>
+                                <tr>
+                                    <th>Crop</th>
+                                    <th>Market</th>
+                                    <th>Price</th>
+                                    <th>Unit</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="market-tbody">
+                                <tr><td colspan="5" class="empty-state">Loading market prices...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ─── PROFILE PAGE ───────────────────────────────────── -->
+                <div id="page-profile" class="page">
+                    <div class="page-header">
+                        <h2>👤 My Profile</h2>
+                        <p>Manage your personal information and profile picture</p>
+                    </div>
+                    
+                    <div class="profile-layout" style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
+                        <div class="profile-pic-section" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; text-align: center; width: 250px;">
+                            <div class="profile-pic-preview" id="profile-pic-preview" style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: bold; color: white; background-size: cover; background-position: center; border: 3px solid var(--primary-light);"></div>
+                            <input type="file" id="profile-pic-input" accept="image/*" onchange="handleProfilePicSelect(event)" hidden>
+                            <button class="btn-primary btn-sm" onclick="document.getElementById('profile-pic-input').click()" style="width: 100%; padding: 0.5rem; font-size: 0.9rem;">Change Picture</button>
+                        </div>
+                        
+                        <div class="profile-form-section" style="flex: 1; min-width: 300px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="prof-name">Full Name</label>
+                                    <input type="text" id="prof-name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prof-phone">Phone Number (Read Only)</label>
+                                    <input type="tel" id="prof-phone" disabled style="opacity: 0.7; cursor: not-allowed;">
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 1rem;">
+                                <div class="form-group">
+                                    <label for="prof-village">Village</label>
+                                    <input type="text" id="prof-village">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prof-district">District</label>
+                                    <input type="text" id="prof-district">
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 1rem;">
+                                <div class="form-group">
+                                    <label for="prof-state">State</label>
+                                    <input type="text" id="prof-state">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prof-language">Language</label>
+                                    <select id="prof-language">
+                                        <option value="English">English</option>
+                                        <option value="Hindi">Hindi (हिन्दी)</option>
+                                        <option value="Telugu">Telugu (తెలుగు)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+                                <button class="btn-primary" onclick="handleProfileUpdate()">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─── AI CHAT PAGE ───────────────────────────────────── -->
+                <div id="page-chat" class="page">
+                    <div class="chat-container">
+                        <div class="chat-header">
+                            <h2>🤖 AI Agriculture Assistant</h2>
+                            <select id="chat-language" class="chat-lang-select">
+                                <option value="English">English</option>
+                                <option value="Hindi">Hindi (हिन्दी)</option>
+                                <option value="Telugu">Telugu (తెలుగు)</option>
+                            </select>
+                        </div>
+                        <div id="chat-messages" class="chat-messages">
+                            <div class="chat-msg bot">
+                                <div class="msg-avatar">🤖</div>
+                                <div class="msg-bubble">
+                                    <p>Namaste! 🙏 I'm your AI Agriculture Assistant. Ask me anything about farming — diseases, fertilizers, irrigation, weather advice, or market tips!</p>
+                                    <div class="suggestion-chips" id="chat-suggestions">
+                                        <button onclick="sendSuggestion('Why are my tomato leaves turning yellow?')">🍅 Yellow tomato leaves?</button>
+                                        <button onclick="sendSuggestion('How to control pests naturally?')">🐛 Pest control</button>
+                                        <button onclick="sendSuggestion('Best irrigation method for vegetables?')">💧 Irrigation tips</button>
+                                        <button onclick="sendSuggestion('How to improve soil health?')">🌱 Soil health</button>
+                                        <button onclick="sendSuggestion('Rice cultivation tips')">🌾 Rice guide</button>
+                                        <button onclick="sendSuggestion('How to get best market prices?')">📊 Market prices</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" id="chat-input" placeholder="Ask a farming question..." onkeypress="if(event.key==='Enter')sendChat()">
+                            <button class="chat-send-btn" onclick="sendChat()">➤</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <script src="app.js?v=2.0"></script>
+</body>
+</html>

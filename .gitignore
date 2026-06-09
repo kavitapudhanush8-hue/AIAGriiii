@@ -1,0 +1,57 @@
+# Secrets & local config
+.env
+.env.local
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+.venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+
+# ML / data (large — download separately)
+ai-model/dataset/
+ai-model/saved_model/
+*.h5
+*.keras
+# NOTE: ai-model/*.py, disease_info.json, requirements.txt ARE tracked (needed by Render)
+
+# Database & Docker volumes
+pgdata/
+*.db
+*.sqlite3
+
+# IDE & OS
+.idea/
+.vscode/
+.cursor/
+.DS_Store
+Thumbs.db
+
+# Flutter
+frontend/.dart_tool/
+frontend/build/
+frontend/.packages
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+
+# Logs & test artifacts
+*.log
+backend/test_output.txt
+backend/uploads/
+agri_assistant.db
+
+# Deployment — DO NOT exclude these
+# render.yaml      ← must be tracked
+# frontend-web/    ← must be tracked
+
+# Node (if added later)
+node_modules/
