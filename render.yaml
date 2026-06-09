@@ -5,8 +5,8 @@ services:
   - type: web
     name: agentai
     runtime: docker
-    # Dockerfile is inside /backend but build context is the whole repo root
-    dockerfilePath: ./backend/Dockerfile
+    # Dockerfile is inside root
+    dockerfilePath: ./Dockerfile
     dockerContext: .
     plan: free
     envVars:
