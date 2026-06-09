@@ -103,10 +103,17 @@ app.include_router(chat.router)
 app.include_router(admin.router)
 
 
-# ─── Root Health Check ────────────────────────────────────────────────────────
+from fastapi.responses import RedirectResponse
 
-@app.get("/", tags=["Health"])
+# ─── Root & Health Check ──────────────────────────────────────────────────────
+
+@app.get("/", include_in_schema=False)
 def root():
+    """Redirect root to the frontend UI."""
+    return RedirectResponse(url="/app/")
+
+@app.get("/health", tags=["Health"])
+def health_check():
     """Health check endpoint."""
     return {
         "status": "healthy",
